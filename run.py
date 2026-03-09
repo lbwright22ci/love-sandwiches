@@ -125,7 +125,25 @@ def main():
     sales_columns = get_last_five_entries_sales()
     stock_data = calculate_sales_data(sales_columns)
     update_spreadsheet(stock_data, "stock")
+    return stock_data
 
 print("Welcome to Love Sandwiches data automation")
-main()
 
+data = main()
+
+def get_stock_values(data):
+    """ prints stock levels for each sandwich to the terminal
+    """
+    print("Creating dictionary")
+    headings = SHEET.worksheet("stock").row_values(1)
+    new_stock ={}
+    for x, y in zip(headings, range(len(headings))):
+        new_stock[x] = data[int(y)]
+
+    return new_stock
+
+stock_values = get_stock_values(data)
+
+print("Make the following numbers of sandwiches for the next market: \n")
+
+print(stock_values)
