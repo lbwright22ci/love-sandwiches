@@ -97,6 +97,24 @@ def get_last_five_entries_sales():
     
     return columns
 
+def calculate_sales_data(data):
+    """
+    Calucalates the stock data for the next market. This is an average of sales from the last 5 markets
+    plus 10% extra
+    Stock values suggested will be integers
+    """
+    print("Calculating stock data ... \n")
+    new_stock_data = []
+
+    for column in data:
+        int_column = [int((num)) for num in column]
+        average = sum(int_column)/len(int_column)
+        stock_num = average * 1.1
+        new_stock_data.append(round(stock_num))
+    
+    return new_stock_data
+
+
 def main():
     """ run all program functions"""
     data = get_sales_data()
@@ -104,8 +122,10 @@ def main():
     update_spreadsheet(sales_data, "sales")
     new_surplus_data = calculate_surplus_data(sales_data)
     update_spreadsheet(new_surplus_data, "surplus")
+    sales_columns = get_last_five_entries_sales()
+    stock_data = calculate_sales_data(sales_columns)
+    update_spreadsheet(stock_data, "stock")
 
 print("Welcome to Love Sandwiches data automation")
-#main()
+main()
 
-sales_columns = get_last_five_entries_sales()
